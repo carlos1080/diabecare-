@@ -12,7 +12,8 @@ export default function Index() {
     if (isSignedIn) {
       router.replace("/(tabs)/home");
     } else {
-      router.replace("/login");
+      router.replace("/profile");
+
     }
   }, [isLoaded]);
 
