@@ -1,7 +1,7 @@
 import { View, TextInput, Button, StyleSheet } from "react-native";
 import { useState } from "react";
 
-export default function GlucoseForm({ onSubmit }: { onSubmit: (data: any) => void }) {
+export default function GlucoseForm({ onSubmit }) {
   const [glucose, setGlucose] = useState("");
   const [note, setNote] = useState("");
 
