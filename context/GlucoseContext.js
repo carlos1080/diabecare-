@@ -1,9 +1,11 @@
 import React, { createContext, useContext, useState } from "react";
 
 // Estructura de una medición
+
 const GlucoseContext = createContext();
 
 export function GlucoseProvider({ children }) {
+  
   const [entries, setEntries] = useState([]);
 
   const addEntry = (entry) => {

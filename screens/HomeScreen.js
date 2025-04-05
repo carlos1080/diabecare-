@@ -8,6 +8,9 @@ export default function Home() {
   const {user} = useUser()
   const firstName = user?.nombre ?? "Usuario";
 
+  // *! Aca baciamente entramos al vector de entries y tomamos el ultimo elemento
+  // *! y lo guardamos en latest, si no hay elementos, latest es null
+
   const latest = entries.length > 0 ? entries[entries.length - 1] : null;
   const currentGlucose = latest?.glucose ?? null;
 
@@ -17,10 +20,12 @@ export default function Home() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+
       <Text style={styles.heading}>Hola {firstName}!</Text>
       <Text style={styles.subheading}>Aquí tienes tu resumen de salud</Text>
 
       <View style={styles.glucoseCard}>
+
         <Text style={styles.glucoseLabel}>Glucosa actual</Text>
         {currentGlucose !== null ? (
           <>

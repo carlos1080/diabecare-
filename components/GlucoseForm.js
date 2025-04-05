@@ -7,7 +7,9 @@ export default function GlucoseForm({ onSubmit }) {
   const [note, setNote] = useState("");
 
 
+
   const handleSave = () => {
+
     const parsedGlucose = parseInt(glucose);
     console.log(parsedGlucose)
 
@@ -54,6 +56,20 @@ export default function GlucoseForm({ onSubmit }) {
     </View>
   );
 }
+
+{/* 
+  
+  Al momento de apretar el boton de guardado se llama a la funcion handle save, que lo que hace es
+
+  // *! 1. Guardar el valor de glucosa en una variable
+  // *! 2. REaliza validaciones sobre el valor de la glucosa
+  // *! 3. Crear un objeto entry con la glucosa, la nota y la fecha
+  // *! 4. Llamar a la función onSubmit con el objeto entry
+  // *! 5. Limpiar los campos de texto  
+
+  */}
+
+  
 
 const styles = StyleSheet.create({
   form: {

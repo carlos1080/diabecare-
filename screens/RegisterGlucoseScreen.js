@@ -9,6 +9,9 @@ export default function RegisterGlucose() {
 
   const { addEntry, entries} = useGlucose()
 
+  // ! * data se refiere a el objeto "entry" definido en el componen "GLucose form"
+  // ! * que se pasa por parametro al enviar el forms
+
   const handleSave = (data) => {
     console.log("Datos guardados:", data);
     addEntry(data)
