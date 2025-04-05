@@ -1,31 +1,19 @@
-import { View, Text, StyleSheet, ScrollView, Dimensions } from "react-native";
-import { LineChart } from "react-native-chart-kit";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { useGlucose } from "../context/GlucoseContext";
+import {getGlucoseStatus} from "../constants/glucoseConstants"
+import {useUser} from "../context/UserContext"
 
 export default function Home() {
-  const firstName = "User";
+  const { entries } = useGlucose();
+  const {user} = useUser()
+  const firstName = user?.nombre ?? "Usuario";
 
-  const currentGlucose = 118;
-  const glucoseStatus =
-    currentGlucose < 70 ? "Bajo" : currentGlucose > 180 ? "Alto" : "Normal";
+  const latest = entries.length > 0 ? entries[entries.length - 1] : null;
+  const currentGlucose = latest?.glucose ?? null;
 
-  const mockData = [
-    { time: "8am", value: 110 },
-    { time: "12pm", value: 135 },
-    { time: "16pm", value: 128 },
-    { time: "20pm", value: 120 },
-  ];
-
-  const glucoseData = {
-    labels: mockData.map((d) => d.time),
-    datasets: [
-      {
-        data: mockData.map((d) => d.value),
-        color: () => "#4e9bde",
-        strokeWidth: 2,
-      },
-    ],
-    legend: ["Glucosa diaria"],
-  };
+  const glucoseStatus = currentGlucose == null
+    ? "Sin datos"
+    : getGlucoseStatus(currentGlucose);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -34,33 +22,17 @@ export default function Home() {
 
       <View style={styles.glucoseCard}>
         <Text style={styles.glucoseLabel}>Glucosa actual</Text>
-        <Text style={styles.glucoseValue}>{currentGlucose} mg/dL</Text>
-        <Text style={styles.glucoseStatus}>Estado: {glucoseStatus}</Text>
+        {currentGlucose !== null ? (
+          <>
+            <Text style={styles.glucoseValue}>{currentGlucose} mg/dL</Text>
+            <Text style={styles.glucoseStatus}>Estado: {glucoseStatus}</Text>
+          </>
+        ) : (
+          <Text style={styles.noData}>Aún no se han registrado datos</Text>
+        )}
       </View>
 
       <Text style={styles.sectionTitle}>Glucosa diaria</Text>
-      <LineChart
-        data={glucoseData}
-        width={Dimensions.get("window").width - 48}
-        height={180}
-        chartConfig={{
-          backgroundColor: "#ffffff",
-          backgroundGradientFrom: "#f5f7fa",
-          backgroundGradientTo: "#f5f7fa",
-          decimalPlaces: 0,
-          color: () => "#4e9bde",
-          labelColor: () => "#333333",
-          propsForDots: {
-            r: "4",
-            strokeWidth: "2",
-            stroke: "#4e9bde",
-          },
-        }}
-        style={{
-          marginVertical: 12,
-          borderRadius: 12,
-        }}
-      />
     </ScrollView>
   );
 }
@@ -108,6 +80,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#333",
     fontWeight: "600",
+  },
+  noData: {
+    fontSize: 16,
+    color: "#aaa",
+    fontStyle: "italic",
   },
   sectionTitle: {
     fontSize: 18,

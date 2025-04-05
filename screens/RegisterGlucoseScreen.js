@@ -1,13 +1,19 @@
 // app/(tabs)/register-glucose.tsx
 import { View, Text, StyleSheet, Alert } from "react-native";
 import GlucoseForm from "../components/GlucoseForm";
+import { useGlucose } from "../context/GlucoseContext";
+
 
 
 export default function RegisterGlucose() {
+
+  const { addEntry, entries} = useGlucose()
+
   const handleSave = (data) => {
     console.log("Datos guardados:", data);
+    addEntry(data)
     Alert.alert("Registro guardado", `Glucosa: ${data.glucose} mg/dL`);
-    // 👉 Acá podrías guardar en una API o AsyncStorage
+    // 👉 Acá guardar datos a una api, context o async storage
   };
 
   return (
